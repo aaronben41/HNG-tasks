@@ -4,7 +4,8 @@ from flask_cors import CORS
 
 def create_app(test_config=None):
      app = Flask(__name__)
-     CORS(app)
+     # Set up CORS. Allow '*' for origins.
+     CORS(app, resources={r"/api/*": {"origins": "*"}})
  
 #Access-Control-Allow
 # CORS Headers

@@ -57,17 +57,17 @@ def index():
                }
           return result
 
-     body = request.get_json()
+     # body = request.get_json()
 
-     if body != None:
-          operation_type = body.get('operation_type')
-          x = int(body.get('x'))
-          y = int(body.get('y'))
+     # if body != None:
+     #      operation_type = body.get('operation_type')
+     #      x = int(body.get('x'))
+     #      y = int(body.get('y'))
           
-          final_result = calculate()
+     #      final_result = calculate()
           
-     else:
-          final_result = calculate()
+     # else:
+     final_result = calculate()
 
      return json.dumps(final_result), 200, {'content-type':'application/json'}
      

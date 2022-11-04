@@ -39,12 +39,17 @@ ops_words = {
 @app.route('/', methods = ["POST"])
 def index():
      body = request.get_json()
-     operation_type = body.get('operation_type', '')
-     x = body.get('x')
-     y = body.get('y')
+     if body != None:
+          operation_type = body.get('operation_type', '')
+          x = body.get('x')
+          y = body.get('y')
+     
+     elif body == None or body == '':
+          operation_type = '+'
+          x = 5
+          y = 20
 
      if operation_type == '+' or '-' or '*' or '/':
-          
           operation = ops['operation_type']
           result = operation(x,y)
           
@@ -55,11 +60,13 @@ def index():
           }
 
           return json.dumps(output), 200, {'content-type':'application/json'}
-     else:
+     
+     elif operation_type != '+' or '-' or '*' or '/':
           output =  {
                "slackUsername": SLACK_UNAME, 
                "operation_type" : operation_type,
                "result": "Please enter operation type with standard notation - eg. '+', '-' - and try again " 
           }
           return json.dumps(output), 200, {'content-type':'application/json'}
+     
 

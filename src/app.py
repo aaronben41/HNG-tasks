@@ -34,23 +34,18 @@ def index():
 
      def calculate ():
           ops = {
-               "+": operator.add,
-               "-": operator.sub,
-               "*": operator.mul,
-               "/": operator.truediv
+               "addition": operator.add,
+               "subtraction": operator.sub,
+               "multiplication": operator.mul,
+               "division": operator.truediv
                }
 
-          ops_words = {
-               "+": 'addition',
-               "-": 'subtraction',
-               "*": 'multiplication',
-               "/": 'division'
-               }
+
                
           if operation_type in ops:
                operation = ops[operation_type]
-               operation_output = ops_words[operation_type]
                output = int(operation(x,y))
+               operation_output = operation_type
           else:
                operation_output = "Error encountered"
                output = "please enter operator as a symbol, eg. '+' or '-' "

@@ -50,7 +50,7 @@ def index():
           if operation_type in ops:
                operation = ops[operation_type]
                operation_output = ops_words[operation_type]
-               output = operation(x,y)
+               output = int(operation(x,y))
           else:
                operation_output = "Error encountered"
                output = "please enter operator as a symbol, eg. '+' or '-' "

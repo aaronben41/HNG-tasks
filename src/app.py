@@ -1,22 +1,22 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+# from flask_cors import CORS
 import json, operator
 
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/api/*": {"origins": "*"}})
-   #Access-Control-Allow
-    # CORS Headers
-@app.after_request
-def after_request(response):
-     response.headers.add(
-          "Access-Control-Allow-Headers", "Content-Type,Authorization,true"
-     )
-     response.headers.add(
-          "Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS"
-     )
-     return response
+# CORS(app, resources={r"/api/*": {"origins": "*"}})
+#    #Access-Control-Allow
+#     # CORS Headers
+# @app.after_request
+# def after_request(response):
+#      response.headers.add(
+#           "Access-Control-Allow-Headers", "Content-Type,Authorization,true"
+#      )
+#      response.headers.add(
+#           "Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS"
+#      )
+#      return response
 
 
 ops = {
@@ -35,7 +35,7 @@ ops_words = {
 
 #Stage 2 task
 
-@app.route('/', methods = ["POST", "GET"])
+@app.route('/', methods = ["GET"])
 def index():
      
      # default values

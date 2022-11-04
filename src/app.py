@@ -2,9 +2,9 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json, operator
 
-from settings import SLACK_UNAME
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/api/*": {"origins": "*"}})
    #Access-Control-Allow
     # CORS Headers
@@ -19,12 +19,11 @@ def after_request(response):
      return response
 
 
-
 ops = {
     "+": operator.add,
     "-": operator.sub,
     "*": operator.mul,
-    "/": operator.div
+    "/": operator.truediv
 }
 
 ops_words = {
@@ -36,37 +35,40 @@ ops_words = {
 
 #Stage 2 task
 
-@app.route('/', methods = ["POST"])
+@app.route('/', methods = ["POST", "GET"])
 def index():
-     body = request.get_json()
-     if body != None:
-          operation_type = body.get('operation_type', '')
-          x = body.get('x')
-          y = body.get('y')
      
-     elif body == None or body == '':
-          operation_type = '+'
-          x = 5
-          y = 20
+     # default values
+     operation_type = '*'
+     x = 5
+     y = 20
 
-     if operation_type == '+' or '-' or '*' or '/':
-          operation = ops['operation_type']
-          result = operation(x,y)
+     def calculate ():
+          if operation_type in ops:
+               operation = ops[operation_type]
+               output = operation(x,y)
+          else:
+               output = "please enter operator as a symbol, eg. '+' or '-' "
           
-          output =  {
-               "slackUsername": SLACK_UNAME, 
-               "operation_type" : ops_words['operation_type'],
-               "result": result 
-          }
+          result =  {
+               "slackUsername": "aaronben41", 
+               "operation_type" : ops_words[operation_type],
+               "result": output 
+               }
+          return result
 
-          return json.dumps(output), 200, {'content-type':'application/json'}
-     
-     elif operation_type != '+' or '-' or '*' or '/':
-          output =  {
-               "slackUsername": SLACK_UNAME, 
-               "operation_type" : operation_type,
-               "result": "Please enter operation type with standard notation - eg. '+', '-' - and try again " 
-          }
-          return json.dumps(output), 200, {'content-type':'application/json'}
+     body = request.get_json()
+
+     if body != None:
+          operation_type = body.get('operation_type')
+          x = int(body.get('x'))
+          y = int(body.get('y'))
+          
+          final_result = calculate()
+          
+     else:
+          final_result = calculate()
+
+     return json.dumps(final_result), 200, {'content-type':'application/json'}
      
 
